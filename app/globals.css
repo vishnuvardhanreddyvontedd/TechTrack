@@ -215,6 +215,14 @@ body {
     border: none;
   }
 
+  .input-base.has-left-icon {
+    padding-left: 3rem !important;
+  }
+
+  .input-base.has-right-element {
+    padding-right: 3rem !important;
+  }
+
   .input-base::placeholder { color: var(--text-muted); }
 
   .input-base:focus {

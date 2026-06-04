@@ -14,7 +14,7 @@ export default async function TopBar() {
   try {
     user = await prisma.user.findUnique({
       where: { id: session.userId },
-      select: { xp: true, level: true, currentStreak: true, name: true },
+      select: { xp: true, level: true, currentStreak: true, name: true, avatarUrl: true },
     })
   } catch (err) {
     // Log server-side and fail gracefully when the DB is unavailable
@@ -33,11 +33,11 @@ export default async function TopBar() {
     <header className="sticky top-0 z-30 flex items-center justify-between px-4 md:px-6 h-14 border-b border-[--border-subtle] bg-[--bg-surface]/80 backdrop-blur-md">
       {/* Left: Mobile logo */}
       <div className="md:hidden flex items-center gap-2">
-        <div className="w-7 h-7 rounded-lg gradient-brand flex items-center justify-center">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M3 3v18h18" /><path d="m19 9-5 5-4-4-3 3" />
-          </svg>
-        </div>
+        <img
+          src="/logo.png"
+          alt="TechTrack Logo"
+          className="w-7 h-7 rounded-lg border border-[--border-subtle] object-cover"
+        />
         <span className="text-sm font-bold gradient-text">TechTrack</span>
       </div>
 
@@ -63,11 +63,14 @@ export default async function TopBar() {
         </div>
 
         {/* Avatar */}
-        <div
-          className="w-8 h-8 rounded-full gradient-brand flex items-center justify-center text-white text-xs font-bold select-none"
-          aria-label={`${user.name} avatar`}
-        >
-          {user.name.charAt(0).toUpperCase()}
+        <div className="w-8 h-8 rounded-full border border-[--border-subtle] overflow-hidden select-none" aria-label={`${user.name} avatar`}>
+          {user.avatarUrl ? (
+            <img src={user.avatarUrl} alt={user.name} className="w-full h-full object-cover" />
+          ) : (
+            <div className="w-full h-full gradient-brand flex items-center justify-center text-white text-xs font-bold">
+              {user.name.charAt(0).toUpperCase()}
+            </div>
+          )}
         </div>
       </div>
     </header>

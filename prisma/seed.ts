@@ -1,8 +1,8 @@
 // prisma/seed.ts — run with: npm run db:seed (uses npx tsx)
 import { Pool } from 'pg'
 import { PrismaPg } from '@prisma/adapter-pg'
-import { PrismaClient } from '../app/generated/prisma/client.ts'
-import { ROADMAP_TEMPLATES } from '../app/lib/roadmap-data.ts'
+import { PrismaClient } from '../app/generated/prisma/client'
+import { ROADMAP_TEMPLATES } from '../app/lib/roadmap-data'
 import { config } from 'dotenv'
 import { resolve } from 'path'
 

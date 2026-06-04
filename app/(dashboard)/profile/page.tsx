@@ -8,6 +8,7 @@ import { prisma } from '@/app/lib/prisma'
 import { calcLevel, xpToNextLevel } from '@/app/types/index'
 import { ProgressBar } from '@/app/components/ui/ProgressBar'
 import { Badge } from '@/app/components/ui/Badge'
+import AvatarUpload from '@/app/components/profile/AvatarUpload'
 
 export const metadata: Metadata = { title: 'Profile' }
 
@@ -39,9 +40,7 @@ export default async function ProfilePage() {
     <div className="max-w-2xl mx-auto space-y-6">
       {/* Avatar + name */}
       <div className="flex items-center gap-5">
-        <div className="w-16 h-16 rounded-2xl gradient-brand flex items-center justify-center text-white text-2xl font-bold shadow-lg">
-          {user.name.charAt(0).toUpperCase()}
-        </div>
+        <AvatarUpload currentAvatarUrl={user.avatarUrl} userName={user.name} />
         <div>
           <h1 className="text-2xl font-bold text-[--text-primary]">{user.name}</h1>
           <p className="text-sm text-[--text-secondary]">{user.email}</p>

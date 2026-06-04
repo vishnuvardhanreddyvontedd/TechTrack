@@ -7,7 +7,7 @@
 //   - No direct HTTP concerns here — that belongs in route handlers / actions.
 //   - The DailyPlan model is the scheduling anchor: one row per roadmap per day.
 
-import type { PrismaClient } from '@/app/generated/prisma'
+import type { PrismaClient } from '@/app/generated/prisma/client'
 
 export const MAX_TASKS_PER_DAY = 5 // guard against overwhelm
 

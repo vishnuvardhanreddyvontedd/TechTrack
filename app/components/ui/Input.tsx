@@ -10,15 +10,16 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string
   helperText?: string
   leftIcon?: React.ReactNode
+  rightElement?: React.ReactNode
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, helperText, leftIcon, className = '', id: idProp, ...props }, ref) => {
+  ({ label, error, helperText, leftIcon, rightElement, className = '', id: idProp, ...props }, ref) => {
     const autoId = useId()
     const id = idProp ?? autoId
 
     return (
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-1.5 animate-fade-in">
         {label && (
           <label
             htmlFor={id}
@@ -41,13 +42,20 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             aria-describedby={error ? `${id}-error` : undefined}
             className={`
               input-base
-              ${leftIcon ? 'pl-14' : ''}
+              ${leftIcon ? 'has-left-icon' : ''}
+              ${rightElement ? 'has-right-element' : ''}
               ${error ? 'border-red-500/60 focus:border-red-500 focus:shadow-[0_0_0_3px_rgba(239,68,68,0.15)]' : ''}
               ${className}
             `}
             {...props}
           />
+          {rightElement && (
+            <div className="absolute right-3.5 top-1/2 -translate-y-1/2 flex items-center justify-center">
+              {rightElement}
+            </div>
+          )}
         </div>
+
 
         {error && (
           <p id={`${id}-error`} role="alert" className="text-xs text-red-400 flex items-center gap-1">

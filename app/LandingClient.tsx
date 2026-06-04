@@ -176,12 +176,11 @@ export default function LandingClient() {
         style={{ background: 'rgba(7,7,10,0.85)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', boxShadow: '0 1px 0 rgba(255,255,255,0.05)' }}>
         <div className="max-w-6xl mx-auto px-5 sm:px-8 h-full flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg gradient-brand flex items-center justify-center" style={{ boxShadow: 'var(--glow-brand)' }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
-                <line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/>
-              </svg>
-            </div>
+            <img
+              src="/logo.png"
+              alt="TechTrack Logo"
+              className="w-8 h-8 rounded-lg border border-[--border-subtle] shadow-md object-cover"
+            />
             <span className="font-bold gradient-text text-base">TechTrack</span>
           </Link>
           <div className="flex items-center gap-2">
@@ -380,12 +379,11 @@ export default function LandingClient() {
       <footer style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <div className="max-w-6xl mx-auto px-5 sm:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-md gradient-brand flex items-center justify-center">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
-                <line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/>
-              </svg>
-            </div>
+            <img
+              src="/logo.png"
+              alt="TechTrack Logo"
+              className="w-6 h-6 rounded-md border border-[--border-subtle] object-cover"
+            />
             <span className="text-sm font-semibold gradient-text">TechTrack</span>
           </div>
           <p className="text-xs text-[--text-muted]">

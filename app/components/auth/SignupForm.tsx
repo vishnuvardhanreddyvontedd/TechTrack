@@ -106,28 +106,28 @@ export default function SignupForm() {
         />
 
         {/* Password */}
-        <div className="relative">
-          <Input
-            name="password"
-            type={showPassword ? 'text' : 'password'}
-            label="Password"
-            placeholder="Min. 8 characters"
-            autoComplete="new-password"
-            required
-            leftIcon={<LockIcon />}
-            error={state?.errors?.password?.[0]}
-            disabled={isPending}
-            id="signup-password"
-          />
-          <button
-            type="button"
-            aria-label={showPassword ? 'Hide password' : 'Show password'}
-            onClick={() => setShowPassword((p) => !p)}
-            className="absolute right-3 top-8 text-[--text-muted] hover:text-[--text-secondary] transition-colors"
-          >
-            <EyeIcon show={showPassword} />
-          </button>
-        </div>
+        <Input
+          name="password"
+          type={showPassword ? 'text' : 'password'}
+          label="Password"
+          placeholder="Min. 8 characters"
+          autoComplete="new-password"
+          required
+          leftIcon={<LockIcon />}
+          rightElement={
+            <button
+              type="button"
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              onClick={() => setShowPassword((p) => !p)}
+              className="text-[--text-muted] hover:text-[--text-secondary] transition-colors flex items-center justify-center"
+            >
+              <EyeIcon show={showPassword} />
+            </button>
+          }
+          error={state?.errors?.password?.[0]}
+          disabled={isPending}
+          id="signup-password"
+        />
 
         {/* Password requirements */}
         {state?.errors?.password && (

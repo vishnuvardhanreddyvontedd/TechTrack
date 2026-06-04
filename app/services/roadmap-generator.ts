@@ -311,25 +311,65 @@ async function openAIGenerate(goal: string, durationDays: number, apiKey: string
   return parsed
 }
 
+// ─── Gemini Generator ──────────────────────────────────────────────────────────
+
+async function geminiGenerate(goal: string, durationDays: number, apiKey: string): Promise<GeneratedRoadmap> {
+  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: buildPrompt(goal, durationDays) }] }],
+      generationConfig: {
+        responseMimeType: 'application/json',
+      }
+    })
+  })
+
+  if (!response.ok) throw new Error(`Gemini ${response.status}: ${await response.text()}`)
+
+  const json = await response.json()
+  const content = json.candidates?.[0]?.content?.parts?.[0]?.text
+  if (!content) throw new Error('Empty Gemini response')
+
+  const parsed = JSON.parse(content) as GeneratedRoadmap
+  if (!parsed.title || !Array.isArray(parsed.days) || parsed.days.length === 0) {
+    throw new Error('Malformed Gemini response')
+  }
+  parsed.days      = parsed.days.slice(0, durationDays)
+  parsed.totalDays = parsed.days.length
+  return parsed
+}
+
 // ─── Public Entry Point ───────────────────────────────────────────────────────
 
 export async function generateRoadmap(
   goal: string,
   durationDays: number,
 ): Promise<GeneratedRoadmap> {
-  const apiKey = process.env.OPENAI_API_KEY?.trim()
+  const openAiKey = process.env.OPENAI_API_KEY?.trim()
+  const geminiKey = process.env.GEMINI_API_KEY?.trim()
 
-  // Use OpenAI if key is set and non-empty, otherwise fall back to local generator
-  if (apiKey) {
+  // Use OpenAI if key is set
+  if (openAiKey) {
     try {
-      return await openAIGenerate(goal, durationDays, apiKey)
+      return await openAIGenerate(goal, durationDays, openAiKey)
     } catch (err) {
-      console.warn('[roadmap-generator] OpenAI failed, using local fallback:', err)
-      // Fall through to local generator on any API error
+      console.warn('[roadmap-generator] OpenAI failed, attempting Gemini or local fallback:', err)
     }
   }
 
+  // Use Gemini if key is set (completely free tier available!)
+  if (geminiKey) {
+    try {
+      return await geminiGenerate(goal, durationDays, geminiKey)
+    } catch (err) {
+      console.warn('[roadmap-generator] Gemini failed, using local fallback:', err)
+    }
+  }
+
+  // Fallback to local offline generator
   return localGenerate(goal, durationDays)
 }
 
 export { localGenerate } // exported for testing
+
