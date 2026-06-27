@@ -1,0 +1,68 @@
+// app/(auth)/signup/page.tsx
+// Signup page — Server Component that renders the branded auth shell
+
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import SignupForm from '@/app/components/auth/SignupForm'
+import AuthTabs from '@/app/components/auth/AuthTabs'
+
+export const metadata: Metadata = {
+  title: 'Create Account',
+  description: 'Sign up and start your personalized tech career journey today.',
+}
+
+export default function SignupPage() {
+  return (
+    <main className="min-h-screen mesh-bg flex items-center justify-center p-4">
+      {/* Ambient blobs */}
+      <div aria-hidden="true" className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-brand-600/20 blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full bg-accent-600/15 blur-3xl" />
+      </div>
+
+      <div className="relative z-10 w-full max-w-md animate-fade-in">
+        {/* Logo */}
+        <div className="flex justify-center mb-8">
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <img
+              src="/logo.png"
+              alt="TechTrack Logo"
+              className="w-10 h-10 rounded-xl shadow-lg border border-[--border-subtle] group-hover:scale-105 transition-all duration-200 object-cover"
+            />
+            <span className="text-xl font-bold gradient-text">TechTrack</span>
+          </Link>
+        </div>
+
+        {/* Card */}
+        <div className="glass-strong rounded-2xl p-8 shadow-2xl border border-[--border-subtle]">
+          {/* Navigation Tabs */}
+          <AuthTabs activeTab="signup" />
+
+          {/* Feature pills */}
+          <div className="flex flex-wrap justify-center gap-2 mb-6">
+            {['🎯 Personalized paths', '🔥 Streak tracking', '⚡ XP & levels'].map((label) => (
+              <span
+                key={label}
+                className="px-3 py-1 text-xs font-medium rounded-full bg-brand-500/10 text-brand-400 border border-brand-500/20"
+              >
+                {label}
+              </span>
+            ))}
+          </div>
+
+          {/* Form */}
+          <SignupForm />
+        </div>
+
+        {/* Footer */}
+        <p className="mt-6 text-center text-xs text-[--text-muted]">
+          By continuing, you agree to our{' '}
+          <span className="text-[--text-secondary] hover:text-[--text-primary] cursor-pointer transition-colors">Terms of Service</span>
+          {' & '}
+          <span className="text-[--text-secondary] hover:text-[--text-primary] cursor-pointer transition-colors">Privacy Policy</span>
+        </p>
+      </div>
+    </main>
+  )
+}
+
