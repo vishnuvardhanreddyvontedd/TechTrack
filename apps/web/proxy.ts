@@ -14,6 +14,37 @@ const PROTECTED_ROUTES = ['/dashboard', '/onboarding', '/roadmap', '/profile', '
 // Routes that should redirect to dashboard if already authenticated
 const AUTH_ROUTES = ['/login', '/signup', '/register']
 
+const corsOptions = {
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
+  'Access-Control-Allow-Credentials': 'true',
+}
+
+function isAllowedApiOrigin(origin: string): boolean {
+  if (!origin) return false
+  if (origin.startsWith('http://localhost:')) return true
+  if (origin.startsWith('http://127.0.0.1:')) return true
+
+  const configured = process.env.MOBILE_APP_ORIGIN?.split(',')
+    .map((value) => value.trim())
+    .filter(Boolean) ?? []
+
+  return configured.includes(origin)
+}
+
+function applyCorsHeaders(response: NextResponse, origin: string): NextResponse {
+  if (isAllowedApiOrigin(origin)) {
+    response.headers.set('Access-Control-Allow-Origin', origin)
+    response.headers.set('Vary', 'Origin')
+  }
+
+  Object.entries(corsOptions).forEach(([key, value]) => {
+    response.headers.set(key, value)
+  })
+
+  return response
+}
+
 function isProtectedRoute(pathname: string): boolean {
   return PROTECTED_ROUTES.some((route) => pathname.startsWith(route))
 }
@@ -24,6 +55,15 @@ function isAuthRoute(pathname: string): boolean {
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
+  const origin = request.headers.get('origin') ?? ''
+
+  if (pathname.startsWith('/api/')) {
+    if (request.method === 'OPTIONS') {
+      return applyCorsHeaders(new NextResponse(null, { status: 204 }), origin)
+    }
+
+    return applyCorsHeaders(NextResponse.next(), origin)
+  }
 
   // Read and decrypt the session cookie
   const sessionToken = request.cookies.get('roadmap_session')?.value
@@ -47,6 +87,7 @@ export async function proxy(request: NextRequest) {
 export const config = {
   // Apply to all routes except static files and Next.js internals
   matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico|public).*)',
+    '/api/:path*',
+    '/((?!_next/static|_next/image|favicon.ico|public).*)',
   ],
 }

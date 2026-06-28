@@ -16,6 +16,14 @@ GEMINI_API_KEY=""
 
 ## Database
 
+Start local Postgres if you are using the default `DATABASE_URL`.
+
+```bash
+npm run db:up
+```
+
+Then sync and seed the schema.
+
 ```bash
 npm run db:generate
 npm run db:push

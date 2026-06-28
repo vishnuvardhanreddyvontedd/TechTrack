@@ -7,13 +7,18 @@ class ForgotPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Forgot password')),
-      body: const Padding(
-        padding: EdgeInsets.all(20),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            TextField(decoration: InputDecoration(labelText: 'Email')),
-            SizedBox(height: 16),
-            FilledButton(onPressed: null, child: Text('Send reset link')),
+            const TextField(decoration: InputDecoration(labelText: 'Email')),
+            const SizedBox(height: 16),
+            FilledButton(
+              onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Password reset is not enabled yet.')),
+              ),
+              child: Text('Send reset link'),
+            ),
           ],
         ),
       ),

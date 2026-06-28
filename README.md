@@ -16,6 +16,7 @@ TechTrack AI is an AI-powered career growth and gamified learning platform for r
 ```bash
 npm install
 cp apps/web/.env.local .env.local
+npm run db:up
 npm run db:generate
 npm run db:push
 npm run db:seed
@@ -49,6 +50,7 @@ For Android emulators, use `http://10.0.2.2:3000`.
 npm run dev
 npm run typecheck
 npm run lint
+npm run db:up
 npm run db:generate
 npm run db:push
 npm run db:seed

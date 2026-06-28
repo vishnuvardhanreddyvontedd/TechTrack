@@ -11,6 +11,7 @@
     "build": "npm run build -w @techtrack/web",
     "lint": "npm run lint -w @techtrack/web",
     "typecheck": "npm run typecheck -w @techtrack/web",
+    "db:up": "docker compose up -d db",
     "db:generate": "npm run db:generate -w @techtrack/database",
     "db:migrate": "npm run db:migrate -w @techtrack/database",
     "db:push": "npm run db:push -w @techtrack/database",
