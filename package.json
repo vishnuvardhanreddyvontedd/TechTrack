@@ -1,0 +1,19 @@
+{
+  "name": "techtrack-ai",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/web",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @techtrack/web",
+    "build": "npm run build -w @techtrack/web",
+    "lint": "npm run lint -w @techtrack/web",
+    "typecheck": "npm run typecheck -w @techtrack/web",
+    "db:generate": "npm run db:generate -w @techtrack/database",
+    "db:migrate": "npm run db:migrate -w @techtrack/database",
+    "db:push": "npm run db:push -w @techtrack/database",
+    "db:seed": "npm run db:seed -w @techtrack/database"
+  }
+}
